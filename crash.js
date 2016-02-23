@@ -19,7 +19,7 @@
   return function(desc, fancy) {
     if (fancy === null || fancy === undefined) fancy = true;
     console.log('test - ' + desc);
-    let current = 1;
+    var current = 1;
     function Case() {
       var self = this;
       this._ran = false;

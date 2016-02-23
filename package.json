@@ -1,6 +1,6 @@
 {
   "name": "crash-course",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The simplest testing framework, ever. Browser friendly, too.",
   "main": "crash.js",
   "scripts": {
