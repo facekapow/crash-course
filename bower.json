@@ -1,0 +1,30 @@
+{
+  "name": "crash-course",
+  "description": "The simplest testing framework, ever. Browser friendly, too.",
+  "main": "crash.js",
+  "authors": [
+    "facekapow"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "test",
+    "testing",
+    "tape",
+    "crash-course",
+    "crash",
+    "course"
+  ],
+  "homepage": "https://github.com/facekapow/crash-course",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
