@@ -1,0 +1,27 @@
+{
+  "name": "crash-course",
+  "version": "1.0.0",
+  "description": "The simplest testing framework, ever. Browser friendly, too.",
+  "main": "crash.js",
+  "scripts": {
+    "test": "echo \"suprisingly, crash-course has no tests\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facekapow/crash-course.git"
+  },
+  "homepage": "https://github.com/facekapow/crash-course",
+  "keywords": [
+    "test",
+    "testing",
+    "tape",
+    "crash-course",
+    "crash",
+    "course"
+  ],
+  "author": "facekapow",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.1.2"
+  }
+}
