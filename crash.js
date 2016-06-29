@@ -52,12 +52,29 @@
       throw new Error('Case not initialized.');
     }
     return {
-      case: function(name, func) {
+      case: function(name, catchErr, func) {
         if (typeof name === 'function') {
           func = name;
           name = null;
         }
-        func(new Case(name));
+        if (typeof catchErr === 'function') {
+          func = catchErr;
+          catchErr = false;
+        }
+        if (typeof name === 'boolean') {
+          catchErr = name;
+          name = null;
+        }
+        if (catchErr) {
+          var testCase = new Case(name);
+          try {
+            func(testCase);
+          } catch(e) {
+            testCase.fail((e.message) ? e.message : String(e));
+          }
+        } else {
+          func(new Case(name));
+        }
       },
       freeform: function(name) {
         return new Case(name);
