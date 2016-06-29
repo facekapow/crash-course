@@ -20,9 +20,10 @@
     if (fancy === null || fancy === undefined) fancy = true;
     console.log('test - ' + desc);
     var current = 1;
-    function Case(name) {
+    function Case(name, cb) {
       var self = this;
       this.name = name;
+      this._cb = cb || (function() {});
       this._ran = false;
       this._out = function(txt, msg, color) {
         console.log('  * case ' + (self.name ? self.name : current) + ' - ' + ((fancy) ? colors[color](txt) : txt));
@@ -36,23 +37,26 @@
         if (self._ran) self._throwErr();
         self._out('pass', passMsg, 'green');
         this._ran = true;
+        this._cb();
       };
       this.fail = function(errMsg) {
         if (self._ran) self._throwErr();
         self._out('fail', errMsg, 'red');
         this._ran = true;
+        this._cb();
       }
       this.warn = function(warnMsg) {
         if (self._ran) self._throwErr();
         self._out('warn', warnMsg, 'yellow');
         this._ran = true;
+        this._cb();
       }
     }
     Case.prototype.pass = Case.prototype.fail = Case.prototype.warn = function() {
       throw new Error('Case not initialized.');
     }
-    return {
-      case: function(name, catchErr, func) {
+    var ret = {
+      case: function(name, catchErr, func, cb) {
         if (typeof name === 'function') {
           func = name;
           name = null;
@@ -66,19 +70,30 @@
           name = null;
         }
         if (catchErr) {
-          var testCase = new Case(name);
+          var testCase = new Case(name, cb);
           try {
             func(testCase);
           } catch(e) {
             testCase.fail((e.message) ? e.message : String(e));
           }
         } else {
-          func(new Case(name));
+          func(new Case(name, cb));
         }
       },
-      freeform: function(name) {
-        return new Case(name);
+      freeform: function(name, cb) {
+        return new Case(name, cb);
+      },
+      waterfall: function(cases, cb) {
+        function doloop(i) {
+          if (i >= cases.length) return cb();
+          if (typeof cases[i] === 'function') cases[i] = [cases[i]];
+          ret.case.apply(ret.case, cases[i].slice(0, 2).concat([function() {
+            doloop(i+1);
+          }]));
+        }
+        doloop(0);
       }
     }
+    return ret;
   }
 });
