@@ -20,11 +20,12 @@
     if (fancy === null || fancy === undefined) fancy = true;
     console.log('test - ' + desc);
     var current = 1;
-    function Case() {
+    function Case(name) {
       var self = this;
+      this.name = name;
       this._ran = false;
       this._out = function(txt, msg, color) {
-        console.log('  * case ' + current + ' - ' + ((fancy) ? colors[color](txt) : txt));
+        console.log('  * case ' + (self.name ? self.name : current) + ' - ' + ((fancy) ? colors[color](txt) : txt));
         if (msg) console.log('    ' + msg);
         current++;
       }
@@ -47,12 +48,19 @@
         this._ran = true;
       }
     }
+    Case.prototype.pass = Case.prototype.fail = Case.prototype.warn = function() {
+      throw new Error('Case not initialized.');
+    }
     return {
-      case: function(func) {
-        func(new Case());
+      case: function(name, func) {
+        if (typeof name === 'function') {
+          func = name;
+          name = null;
+        }
+        func(new Case(name));
       },
-      freeform: function() {
-        return new Case();
+      freeform: function(name) {
+        return new Case(name);
       }
     }
   }
