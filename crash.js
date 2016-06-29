@@ -87,7 +87,7 @@
         function doloop(i) {
           if (i >= cases.length) return cb();
           if (typeof cases[i] === 'function') cases[i] = [cases[i]];
-          ret.case.apply(ret.case, cases[i].slice(0, 2).concat([function() {
+          ret.case.apply(ret.case, cases[i].slice(0, 3).concat([function() {
             doloop(i+1);
           }]));
         }
